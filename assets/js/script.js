@@ -12,6 +12,13 @@ var user = {
   selected: '',
   charTypes: [],
   password: '',
+  //function for shuffling character types array
+  shuffleCharTypes: function(){
+    for (var i = user.charTypes.length -1; i > 0; i--){
+      var j = Math.floor(Math.random()*(i+1));
+      [user.charTypes[i],user.charTypes[j]]=[user.charTypes[j],user.charTypes[i]];
+    }
+  }
 }
 
 
@@ -35,6 +42,7 @@ function generatePassword(){
   user.selected = '';
   user.charTypes = [];
   user.passLength = document.querySelector("#password-length").value;
+  //check if the user has enterd the password length
   if(!user.passLength || user.passLength < 8 || user.passLength > 128){
     window.alert("Password length not recongnized\nPlease enter a number between 8 - 128")
     return;
@@ -43,6 +51,7 @@ function generatePassword(){
   var hasUpper = document.querySelector('#uppercase').checked;
   var hasNum = document.querySelector('#numbers').checked;
   var hasSym = document.querySelector('#symbols').checked;
+  //check if the user has at least one type of character type
   if(!hasLower && !hasUpper && !hasNum && !hasSym){
     window.alert("You must have at least one type of symbol checked")
     return;
@@ -63,6 +72,8 @@ function generatePassword(){
     user.selected += chars.upper;
     user.charTypes.splice(0,0,3);
   }
+  user.shuffleCharTypes();
+  //generate random password
   for(charIndex=0;charIndex < user.passLength;charIndex++){
     user.password += generateChar(user.charTypes[charIndex])
   }
